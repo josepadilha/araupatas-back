@@ -1,0 +1,28 @@
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn
+} from "typeorm";
+
+@Entity("users")
+export class User {
+  @PrimaryColumn()
+  id!: string; // uid do Firebase
+
+  @Column()
+  name!: string;
+
+  @Column({ unique: true })
+  email!: string;
+
+  @Column()
+  role!: string; // admin | employee
+
+  @CreateDateColumn()
+  created_at!: Date;
+
+  @UpdateDateColumn()
+  updated_at!: Date;
+}
