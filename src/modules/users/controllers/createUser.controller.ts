@@ -1,33 +1,24 @@
 import { Request, Response } from "express";
-import admin from "firebase-admin";
-import { AppDataSource } from "../../../config/database";
-import { User } from "../infra/typeorm/entities/User";
+import { CreateUserService } from "../services/createUser.service";
 
 export class CreateUserController {
   async handle(req: Request, res: Response) {
     const { name, email, password, role } = req.body;
 
     try {
-      const firebaseUser = await admin.auth().createUser({
-        email,
-        password
-      });
+      const service = new CreateUserService();
 
-      const repo = AppDataSource.getRepository(User);
-
-      const newUser = repo.create({
-        id: firebaseUser.uid,
+      const newUser = await service.execute({
         name,
         email,
-        role
+        password,
+        role,
       });
-
-      await repo.save(newUser);
 
       return res.status(201).json(newUser);
 
-    } catch (err) {
-      return res.status(400).json({ error: err });
+    } catch (err: any) {
+      return res.status(400).json({ error: err.message || err });
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { AppDataSource } from "../config/database";
-import { User } from "../modules/users/infra/typeorm/entities/User";
+import { AppDataSource } from "../../config/database";
+import { User } from "../../modules/users/entities/User";
 
 export async function ensureAdmin(
   req: Request,

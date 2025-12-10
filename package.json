@@ -8,7 +8,8 @@
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
      "migration:run": "typeorm migration:run -d ormconfig.js",
     "migration:revert": "typeorm migration:revert -d ormconfig.js",
-    "migration:create": "typeorm migration:create src/shared/database/migrations/$npm_config_name"
+    "migration:create": "typeorm migration:create"
+
   },
   "repository": {
     "type": "git",

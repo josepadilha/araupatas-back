@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import admin from "../config/firebase/firebaseAdmin";
+import admin from "../../config/firebase/firebaseAdmin";
 
 export async function ensureAuthenticated(
   req: Request,
