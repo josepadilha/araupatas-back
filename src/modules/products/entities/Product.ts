@@ -17,6 +17,12 @@ export class Product {
   @JoinColumn({ name: "category_id" })
   category!: ProductCategory;
 
+  @Column({ nullable: true })
+  description?: string;
+  
+  @Column({ nullable: true })
+  sku?: string;
+
   @Column()
   unit_id!: string;
 

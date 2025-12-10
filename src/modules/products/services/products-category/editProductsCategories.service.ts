@@ -14,7 +14,7 @@ export class EditProductCategoryService {
     const category = await repo.findOne({ where: { id } });
 
     if (!category) {
-      throw new Error("Categoria not found.");
+      throw new Error("Category not found.");
     }
 
     const existing = await repo.findOne({

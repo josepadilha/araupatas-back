@@ -19,7 +19,8 @@ export class CreateProducts1765312676021 implements MigrationInterface {
           { name: "unit_id", type: "uuid", isNullable: true },
           { name: "min_quantity", type: "int", default: 0 },
           { name: "createdAt", type: "timestamp", default: "now()" },
-          { name: "updatedAt", type: "timestamp", default: "now()" }
+          { name: "updatedAt", type: "timestamp", default: "now()" },
+          { name: "deletedAt", type: "timestamp", isNullable: true }
         ]
       })
     );

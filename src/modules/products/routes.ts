@@ -8,8 +8,36 @@ import { EditUnitsController } from "./controllers/products-units/editProductsUn
 import { DeleteUnitsController } from "./controllers/products-units/deleteProductsUnits.controller";
 import { ListUnitsController } from "./controllers/products-units/listProductsUnits.controller";
 import { CreateProductsUnitsController } from "./controllers/products-units/createProductsUnits.controller";
+import { CreateProductsController } from "./controllers/products/createProducts.controller";
+import { ListProductsController } from "./controllers/products/listProducts.controller";
+import { EditProductsController } from "./controllers/products/editProducts.controller";
+import { DeleteProductsController } from "./controllers/products/deleteProducts.controller";
 
 const routes = Router();
+
+routes.post(
+  "/",
+  ensureAuthenticated,
+  new CreateProductsController().handle
+);
+
+routes.get(
+  "/",
+  ensureAuthenticated,
+  new ListProductsController().handle
+);
+
+routes.put(
+  "/:id",
+  ensureAuthenticated,
+  new EditProductsController().handle
+);
+
+routes.delete(
+  "/:id",
+  ensureAuthenticated,
+  new DeleteProductsController().handle
+);
 
 routes.post(
   "/products-categories",
