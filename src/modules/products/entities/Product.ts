@@ -5,34 +5,34 @@ import { ProductUnit } from "./ProductUnit";
 @Entity("products")
 export class Product {
   @PrimaryGeneratedColumn("uuid")
-  id: string;
+  id!: string;
 
   @Column()
-  name: string;
+  name!: string;
 
   @Column()
-  category_id: string;
+  category_id!: string;
 
   @ManyToOne(() => ProductCategory)
   @JoinColumn({ name: "category_id" })
-  category: ProductCategory;
+  category!: ProductCategory;
 
   @Column()
-  unit_id: string;
+  unit_id!: string;
 
   @ManyToOne(() => ProductUnit)
   @JoinColumn({ name: "unit_id" })
-  unit: ProductUnit;
+  unit!: ProductUnit;
 
   @Column("int")
-  min_quantity: number;
+  min_quantity!: number;
 
   @DeleteDateColumn()
-  deletedAt: Date;
+  deletedAt!: Date;
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt!: Date;
 }
