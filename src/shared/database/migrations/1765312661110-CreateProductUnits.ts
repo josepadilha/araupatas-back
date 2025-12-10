@@ -11,8 +11,11 @@ export class CreateProductUnits1765312661110 implements MigrationInterface {
         name: "product_units",
         columns: [
           { name: "id", type: "uuid", isPrimary: true, generationStrategy: "uuid", default: "uuid_generate_v4()" },
-          { name: "name", type: "varchar" },        // "caixa", "unidade", "ml", "kit"
-          { name: "abbreviation", type: "varchar" }, // "cx", "un", "ml"
+          { name: "name", type: "varchar" },
+          { name: "description", type: "varchar", isNullable: true },
+          { name: "createdAt", type: "timestamp", default: "now()" },
+          { name: "updatedAt", type: "timestamp", default: "now()" },
+          { name: "deletedAt", type: "timestamp", isNullable: true}
         ]
       })
     );

@@ -14,7 +14,7 @@ export class CreateProducts1765312676021 implements MigrationInterface {
           { name: "id", type: "uuid", isPrimary: true, generationStrategy: "uuid", default: "uuid_generate_v4()" },
           { name: "name", type: "varchar" },
           { name: "description", type: "varchar", isNullable: true },
-          { name: "sku", type: "varchar", isNullable: true },
+          { name: "sku", type: "varchar", isNullable: true }, // variação do produto (tamanho, cor)
           { name: "category_id", type: "uuid", isNullable: true },
           { name: "unit_id", type: "uuid", isNullable: true },
           { name: "min_quantity", type: "int", default: 0 },

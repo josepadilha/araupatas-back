@@ -14,7 +14,8 @@ export class CreateProductCategories1765312642817 implements MigrationInterface 
           { name: "name", type: "varchar" },
           { name: "description", type: "varchar", isNullable: true },
           { name: "createdAt", type: "timestamp", default: "now()" },
-          { name: "updatedAt", type: "timestamp", default: "now()" }
+          { name: "updatedAt", type: "timestamp", default: "now()" },
+          { name: "deletedAt", type: "timestamp", isNullable: true}
         ]
       })
     );

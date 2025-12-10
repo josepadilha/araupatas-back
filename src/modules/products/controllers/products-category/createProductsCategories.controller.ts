@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CreateProductCategoryService } from "../services/createProductsCategories.service";
+import { CreateProductCategoryService } from "../../services/products-category/createProductsCategories.service";
 
 export class CreateProductsCategoriesController {
   async handle(req: Request, res: Response) {
@@ -9,7 +9,7 @@ export class CreateProductsCategoriesController {
       const service = new CreateProductCategoryService();
 
       const newCategory = await service.execute({
-        name,
+        name
       });
 
       return res.status(201).json(newCategory);

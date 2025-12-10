@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { AppDataSource } from "./config/database";
 import { usersRoutes } from "./modules/users/routes";
+import { productsRoutes } from "./modules/products/routes";
 
 
 const app = express();
@@ -10,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/users", usersRoutes);
+app.use("/products", productsRoutes);
 
 AppDataSource.initialize()
   .then(() => {
