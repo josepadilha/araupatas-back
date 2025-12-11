@@ -33,7 +33,7 @@ export class StockMovement {
   quantity!: number; // positivo = entrada, negativo = saída
 
   @Column()
-  type!: "IN" | "OUT" | "TRANSFER" | "ADJUST";
+  type!: string //"IN" | "OUT" | "TRANSFER" | "ADJUST";
 
   @CreateDateColumn()
   createdAt!: Date;

@@ -6,9 +6,6 @@ export class Stock {
   id!: string;
 
   @Column()
-  name!: string;
-
-  @Column()
   product_id!: string;
 
   @Column()

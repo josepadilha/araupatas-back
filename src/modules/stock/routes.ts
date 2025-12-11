@@ -3,10 +3,24 @@ import { ensureAuthenticated } from "../../shared/middlewares/ensureAuthenticate
 import { CreateStockLocationController } from "./controllers/stock-locations/createStockLocations.controller";
 import { ListStockLocationController } from "./controllers/stock-locations/listStockLocations.controller";
 import { EditStockLocationController } from "./controllers/stock-locations/EditStockLocations.controller";
+import { ListStockController } from "./controllers/stock/getStockById.controller";
+import { CreateStockController } from "./controllers/stock/createStock.controller";
 
 
 
 const routes = Router();
+
+routes.get(
+  "/:id",
+  ensureAuthenticated,
+  new ListStockController().handle
+);
+
+routes.post(
+  "",
+  ensureAuthenticated,
+  new CreateStockController().handle
+);
 
 routes.post(
   "/stock-location",

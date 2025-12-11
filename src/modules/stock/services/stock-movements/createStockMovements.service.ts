@@ -1,22 +1,54 @@
 import { AppDataSource } from "../../../../config/database";
+import { Stock } from "../../entities/Stock";
 import { StockMovement } from "../../entities/StockMovement";
 
 interface IUnitRequest {
-  name: string;
-  description: string;
+  productId: string;
+  locationId: string;
+  type: string;
+  userId: string;
+  quantity: number
 }
-
 export class CreateStockMovementsService {
-  async execute({ name, description }: IUnitRequest) {
+  async execute({ productId, locationId, type, userId, quantity }: IUnitRequest) {
+    
+    return await AppDataSource.transaction(async (manager) => {
 
-    const repo = AppDataSource.getRepository(StockMovement);
+      const stockRepo = manager.getRepository(Stock);
+      const movementRepo = manager.getRepository(StockMovement);
 
-    // const newUnit = repo.create({
-    //   name
-    // });
+      let stock = await stockRepo.findOne({
+        where: { product_id: productId, location_id: locationId }
+      });
 
-    // await repo.save(newUnit);
+      if (!stock) {
+      throw new Error("Produto não cadastrado nesse estoque.");
+    }
 
-    return ;
+      if (type === "IN") {
+        stock.quantity += quantity;
+      }
+
+      if (type === "OUT") {
+        if (stock.quantity < quantity) {
+          throw new Error("Estoque insuficiente");
+        }
+        stock.quantity -= quantity;
+      }
+
+      await stockRepo.save(stock);
+
+      const movement = movementRepo.create({
+        type,
+        user_id: userId,
+        location_id: locationId,
+        product_id: productId,
+        quantity
+      });
+
+      await movementRepo.save(movement);
+
+      return movement;
+    });
   }
 }
