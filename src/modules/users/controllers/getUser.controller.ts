@@ -4,7 +4,6 @@ import { GetUserService } from "../services/getUser.service";
 export class GetUserController {
   async handle(req: Request, res: Response) {
     try {
-      console.log('req.params.id', req.params.id)
       const userId = req.params.id
       const service = new GetUserService();
       const users = await service.execute(userId);

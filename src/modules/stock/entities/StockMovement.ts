@@ -23,17 +23,17 @@ export class StockMovement {
   location!: StockLocation;
 
   @Column()
-  user_id!: string;
+  created_by!: string;
 
   @ManyToOne(() => User)
-  @JoinColumn({ name: "user_id" })
+  @JoinColumn({ name: "created_by" })
   user!: User;
 
   @Column("int")
-  quantity!: number; // positivo = entrada, negativo = saída
+  quantity!: number;
 
   @Column()
-  type!: string //"IN" | "OUT" | "TRANSFER" | "ADJUST";
+  type!: string
 
   @CreateDateColumn()
   createdAt!: Date;

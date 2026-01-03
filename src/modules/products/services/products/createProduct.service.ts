@@ -9,10 +9,11 @@ interface IRequest {
   sku?: string;
   categoryId: string;
   unitId: string;
+  quantity: number
 }
 
 export class CreateProductService {
-  async execute({ name, description, sku, categoryId, unitId }: IRequest) {
+  async execute({ name, description, sku, categoryId, unitId, quantity }: IRequest) {
     const repo = AppDataSource.getRepository(Product);
     const categoryRepo = AppDataSource.getRepository(ProductCategory);
     const unitRepo = AppDataSource.getRepository(ProductUnit);
@@ -33,7 +34,7 @@ export class CreateProductService {
       sku,
       category_id: category.id,
       unit_id: unit.id,
-      min_quantity: 10,
+      min_quantity: quantity,
     });
 
     await repo.save(product);

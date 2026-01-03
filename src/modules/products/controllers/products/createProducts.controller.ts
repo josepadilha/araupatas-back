@@ -9,7 +9,8 @@ export class CreateProductsController {
         description,
         sku,
         categoryId,
-        unitId
+        unitId,
+        quantity
       } = req.body;
 
       const service = new CreateProductService();
@@ -19,7 +20,8 @@ export class CreateProductsController {
         description,
         sku,
         categoryId,
-        unitId
+        unitId,
+        quantity
       });
 
       return res.status(201).json(product);

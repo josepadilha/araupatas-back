@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, DeleteDateColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, DeleteDateColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Product } from "../../products/entities/Product";
 
 @Entity("stock")
 export class Stock {
@@ -7,6 +8,10 @@ export class Stock {
 
   @Column()
   product_id!: string;
+
+  @ManyToOne(() => Product)
+  @JoinColumn({ name: 'product_id' })
+  product!: Product;
 
   @Column()
   location_id!: string;

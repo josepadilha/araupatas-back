@@ -5,12 +5,11 @@ import { StockMovement } from "../../entities/StockMovement";
 interface IUnitRequest {
   productId: string;
   locationId: string;
-  type: string;
   userId: string;
   quantity: number
 }
-export class CreateStockMovementsService {
-  async execute({ productId, locationId, type, userId, quantity }: IUnitRequest) {
+export class CreateInitialStockMovementsService {
+  async execute({ productId, locationId, userId, quantity }: IUnitRequest) {
     
     return await AppDataSource.transaction(async (manager) => {
 
@@ -21,29 +20,24 @@ export class CreateStockMovementsService {
         where: { product_id: productId, location_id: locationId }
       });
 
-      if (!stock) {
-        throw new Error("Produto não cadastrado nesse estoque.");
+      if (stock) {
+        throw new Error("Produto já está  cadastrado nesse estoque.");
       }
 
-      if (type === "IN") {
-        stock.quantity += quantity;
-      }
+      const newStock = stockRepo.create({
+        location_id: locationId,
+        product_id: productId,
+        quantity
+      })
 
-      if (type === "OUT") {
-        if (stock.quantity < quantity) {
-          throw new Error("Estoque insuficiente");
-        }
-        stock.quantity -= quantity;
-      }
-
-      await stockRepo.save(stock);
+      stockRepo.save(newStock)
 
       const movement = movementRepo.create({
-        type,
+        type: 'IN',
         created_by: userId,
         location_id: locationId,
         product_id: productId,
-        quantity,
+        quantity
       });
 
       await movementRepo.save(movement);
