@@ -2,58 +2,108 @@ import { AppDataSource } from "../../../../config/database";
 import { Stock } from "../../entities/Stock";
 import { StockMovement } from "../../entities/StockMovement";
 
+interface GetStockParams {
+  locationId: string;
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
 export class GetStockService {
-  async execute(locationId: string) {
+  async execute({
+    locationId,
+    page = 1,
+    limit = 10,
+    search = '',
+  }: GetStockParams) {
 
     const qb = AppDataSource
       .getRepository(Stock)
       .createQueryBuilder('stock')
-      .leftJoinAndSelect('stock.product', 'product')
-      .leftJoinAndSelect('product.category', 'category')
-      .leftJoinAndSelect('product.unit', 'unit')
+      .select([
+        'stock.id',
+        'stock.quantity',
+        'stock.location_id',
+        'product.id',
+        'product.name',
+        'category.name',
+        'unit.name',
+      ])
+      .leftJoin('stock.product', 'product')
+      .leftJoin('product.category', 'category')
+      .leftJoin('product.unit', 'unit')
 
-      .addSelect(
-        subQuery =>
-          subQuery
-            .select('MAX(movement.createdAt)')
-            .from(StockMovement, 'movement')
-            .where('movement.product_id = stock.product_id')
-            .andWhere('movement.location_id = stock.location_id')
-            .andWhere('movement.type = :inType'),
-        'lastEntry'
-      )
+      // 🔹 Última entrada
+      .addSelect(subQuery =>
+        subQuery
+          .select('MAX(movement.createdAt)')
+          .from(StockMovement, 'movement')
+          .where('movement.product_id = stock.product_id')
+          .andWhere('movement.location_id = stock.location_id')
+          .andWhere('movement.type = :inType')
+        , 'lastEntry')
 
-      .addSelect(
-        subQuery =>
-          subQuery
-            .select('MAX(movement.createdAt)')
-            .from(StockMovement, 'movement')
-            .where('movement.product_id = stock.product_id')
-            .andWhere('movement.location_id = stock.location_id')
-            .andWhere('movement.type = :outType'),
-        'lastExit'
-      )
+      .addSelect(subQuery =>
+        subQuery
+          .select('MAX(movement.createdAt)')
+          .from(StockMovement, 'movement')
+          .where('movement.product_id = stock.product_id')
+          .andWhere('movement.location_id = stock.location_id')
+          .andWhere('movement.type = :outType')
+        , 'lastExit')
 
       .where('stock.location_id = :locationId', { locationId })
       .setParameters({
         inType: 'IN',
         outType: 'OUT',
-      })
-      .orderBy('stock.updatedAt', 'DESC');
+      });
 
-    const { entities, raw } = await qb.getRawAndEntities();
+    if (search) {
+      qb.andWhere(`
+        LOWER(product.name) LIKE :search
+        OR LOWER(category.name) LIKE :search
+      `, { search: `%${search.toLowerCase()}%` });
+    }
 
+    const countQb = AppDataSource
+      .getRepository(Stock)
+      .createQueryBuilder('stock')
+      .leftJoin('stock.product', 'product')
+      .leftJoin('product.category', 'category')
+      .where('stock.location_id = :locationId', { locationId });
 
-    return entities.map((stock, index) => ({
-      id: stock.product.id,
-      name: stock.product.name,
-      category: stock.product.category?.name ?? '',
-      unit: stock.product.unit?.name ?? '',
-      currentQuantity: stock.quantity,
-      warehouseId: stock.location_id,
-      lastEntry: raw[index]?.lastEntry ?? null,
-      lastExit: raw[index]?.lastExit ?? null,
-    }));
+    if (search) {
+      countQb.andWhere(`
+        LOWER(product.name) LIKE :search
+        OR LOWER(category.name) LIKE :search
+      `, { search: `%${search.toLowerCase()}%` });
+    }
+
+    const total = await countQb.getCount();
+
+    const dataQb = qb.clone()
+      .orderBy('product.name', 'ASC')
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const entities = await dataQb.getMany();
+    const raw = await dataQb.getRawMany();
+
+    return {
+      data: entities.map((stock, index) => ({
+        id: stock.product.id,
+        name: stock.product.name,
+        category: stock.product.category?.name ?? '',
+        unit: stock.product.unit?.name ?? '',
+        currentQuantity: stock.quantity,
+        warehouseId: stock.location_id,
+        lastEntry: raw[index]?.lastEntry ?? null,
+        lastExit: raw[index]?.lastExit ?? null,
+      })),
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 }
-

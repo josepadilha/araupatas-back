@@ -9,9 +9,10 @@ import { DeleteUnitsController } from "./controllers/products-units/deleteProduc
 import { ListUnitsController } from "./controllers/products-units/listProductsUnits.controller";
 import { CreateProductsUnitsController } from "./controllers/products-units/createProductsUnits.controller";
 import { CreateProductsController } from "./controllers/products/createProducts.controller";
-import { ListProductsController } from "./controllers/products/listProducts.controller";
+import { ListProductSelectController } from "./controllers/products/listProducts.controller";
 import { EditProductsController } from "./controllers/products/editProducts.controller";
 import { DeleteProductsController } from "./controllers/products/deleteProducts.controller";
+import { ListProductsController } from "./controllers/products/listProductsSelect.controller";
 
 const routes = Router();
 
@@ -86,6 +87,8 @@ routes.put(
   ensureAuthenticated,
   new EditUnitsController().handle
 );
+
+routes.get('/select', new ListProductSelectController().handle);
 
 
 export { routes as productsRoutes };
