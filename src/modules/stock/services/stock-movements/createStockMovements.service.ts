@@ -38,6 +38,10 @@ export class CreateStockMovementsService {
 
       await stockRepo.save(stock);
 
+      console.log('NOW Date():', new Date());
+      console.log('NOW ISO:', new Date().toISOString());
+      console.log('NOW locale:', new Date().toLocaleString('pt-BR'));
+
       const movement = movementRepo.create({
         type,
         created_by: userId,

@@ -35,6 +35,6 @@ export class StockMovement {
   @Column()
   type!: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 }

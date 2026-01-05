@@ -19,7 +19,7 @@ routes.get(
 );
 
 routes.get(
-  "/:id",
+  "/:locationId",
   ensureAuthenticated,
   new ListStockController().handle
 );
