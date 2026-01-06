@@ -7,10 +7,10 @@ export class EditProductsController {
     async handle(req: Request, res: Response) {
         try {
             const { id } = req.params;
-            const { name,  category_id, unit_id, sku, description, min_quantity } = req.body;
+            const { name,  category_id, unit_id, sku, description, quantity } = req.body;
 
             const service = new EditProductService();
-            const result = await service.execute({id, name, description, category_id, unit_id, sku, min_quantity});
+            const result = await service.execute({id, name, description, category_id, unit_id, sku, quantity});
 
             return res.status(200).json(result);
 
