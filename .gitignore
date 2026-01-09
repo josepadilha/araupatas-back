@@ -12,3 +12,4 @@ src/config/firebase/*.json
 *.key
 *.json  # arquivos de configuração sensíveis
 serviceAccount*.json
+dist

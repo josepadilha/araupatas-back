@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon --exec ts-node --files src/app.ts",
+    "start:dev": "nodemon --exec ts-node --files src/app.ts",
+    "start": "node dist/app.js",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "migration:run": "typeorm migration:run -d ormconfig.js",
     "migration:revert": "typeorm migration:revert -d ormconfig.js",
     "migration:create": "typeorm migration:create"
-
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "firebase-admin": "^13.6.0",
+    "firebase-functions": "^7.0.3",
     "nodemon": "^3.1.11",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
