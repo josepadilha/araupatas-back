@@ -26,6 +26,7 @@ export class GetStockService {
         'stock.location_id',
         'product.id',
         'product.name',
+        'product.min_quantity',
         'category.name',
         'unit.name',
       ])
@@ -96,6 +97,7 @@ export class GetStockService {
         category: stock.product.category?.name ?? '',
         unit: stock.product.unit?.name ?? '',
         currentQuantity: stock.quantity,
+        min_quantity: stock.product.min_quantity,
         warehouseId: stock.location_id,
         lastEntry: raw[index]?.lastEntry ?? null,
         lastExit: raw[index]?.lastExit ?? null,
