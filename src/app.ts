@@ -6,7 +6,6 @@ import { usersRoutes } from "./modules/users/routes";
 import { productsRoutes } from "./modules/products/routes";
 import { stockRoutes } from "./modules/stock/routes";
 
-
 const app = express();
 
 app.use(cors());
@@ -15,14 +14,14 @@ app.use("/users", usersRoutes);
 app.use("/products", productsRoutes);
 app.use("/stock", stockRoutes);
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log("📦 Banco conectado com sucesso!");
-
-    app.listen(3333, () => {
-      console.log("🚀 Server running on port 3333");
+if (process.env.FIREBASE_FUNCTIONS !== "true") {
+  AppDataSource.initialize()
+    .then(() => {
+      console.log("📦 Banco conectado com sucesso!");
+    })
+    .catch(error => {
+      console.error("Erro ao inicializar o banco:", error);
     });
-  })
-  .catch(error => {
-    console.error("Erro ao inicializar o banco:", error);
-  });
+}
+
+export default app;

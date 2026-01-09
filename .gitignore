@@ -1,3 +1,14 @@
 node_modules
 src/config/firebase/*.json
 /data/postgres
+.env
+
+# Lista de arquivos que DEVEM estar no .gitignore
+.env
+.env.local
+.env.development
+.env.production
+*.pem
+*.key
+*.json  # arquivos de configuração sensíveis
+serviceAccount*.json

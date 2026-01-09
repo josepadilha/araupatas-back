@@ -3,13 +3,13 @@ import "dotenv/config";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: process.env.DB_HOST,
-  port: Number(process.env.DB_PORT),
-  username: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
+  url: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
   synchronize: false,
   logging: false,
-  entities: ["src/modules/**/entities/*.ts"],
-  migrations: ["src/shared/database/migrations/*.ts"],
+  entities: ["src/modules/**/entities/*.{ts,js}"],
+  migrations: ["src/shared/database/migrations/*.{ts,js}"],
+  extra: {
+    max: 5,
+  },
 });
