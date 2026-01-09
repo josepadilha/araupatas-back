@@ -7,6 +7,7 @@ import { productsRoutes } from "./modules/products/routes";
 import { stockRoutes } from "./modules/stock/routes";
 
 export const app = express();
+const port = process.env.PORT || 3333;
 
 app.use(cors());
 app.use(express.json());
@@ -23,7 +24,7 @@ AppDataSource.initialize()
   });
 
 if (process.env.NODE_ENV !== "production") {
-  app.listen(3333, () => {
+  app.listen(port, () => {
     console.log("🚀 Server running on port 3333");
   });
 }

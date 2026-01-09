@@ -1,24 +1,24 @@
 import { DataSource } from "typeorm";
 import "dotenv/config";
-import { defineString } from "firebase-functions/params";
-
-export const DATABASE_URL = defineString("DATABASE_URL");
 
 const isProd = process.env.NODE_ENV === "production";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  url: DATABASE_URL.value(),
+  url: process.env.DATABASE_URL,
 
-  ssl: isProd
-    ? { rejectUnauthorized: false }
-    : false,
+  ssl: isProd ? { rejectUnauthorized: false } : false,
 
   synchronize: false,
   logging: false,
 
-  entities: ["src/modules/**/entities/*.{ts,js}"],
-  migrations: ["src/shared/database/migrations/*.{ts,js}"],
+  entities: isProd
+    ? ["dist/modules/**/entities/*.js"]
+    : ["src/modules/**/entities/*.ts"],
+
+  migrations: isProd
+    ? ["dist/shared/database/migrations/*.js"]
+    : ["src/shared/database/migrations/*.ts"],
 
   extra: {
     max: 5,
