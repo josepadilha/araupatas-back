@@ -8,7 +8,7 @@ import { stockRoutes } from "./modules/stock/routes";
 
 export const app = express();
 
-const PORT = process.env.PORT || 3333;
+const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
@@ -21,7 +21,7 @@ AppDataSource.initialize()
   .then(() => {
     console.log("📦 Banco conectado com sucesso!");
 
-    app.listen(PORT, () => {
+        app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
   })

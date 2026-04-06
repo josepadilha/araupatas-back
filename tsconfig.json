@@ -11,10 +11,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "baseUrl": "."
   },
   "include": [
     "src/**/*"

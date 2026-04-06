@@ -23,6 +23,9 @@ export class Product {
   @Column({ nullable: true })
   sku?: string;
 
+  @Column({ type: 'numeric', precision: 10, scale: 2, nullable: true })
+  price?: number;
+
   @Column()
   unit_id!: string;
 

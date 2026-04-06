@@ -4,10 +4,11 @@ import { CreateProductService } from "../../services/products/createProduct.serv
 export class CreateProductsController {
   async handle(req: Request, res: Response) {
     try {
-      const { 
+      const {
         name,
         description,
         sku,
+        price,
         categoryId,
         unitId,
         quantity
@@ -19,6 +20,7 @@ export class CreateProductsController {
         name,
         description,
         sku,
+        price,
         categoryId,
         unitId,
         quantity

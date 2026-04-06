@@ -7,13 +7,14 @@ interface IRequest {
   name: string;
   description?: string;
   sku?: string;
+  price?: number;
   categoryId: string;
   unitId: string;
   quantity: number
 }
 
 export class CreateProductService {
-  async execute({ name, description, sku, categoryId, unitId, quantity }: IRequest) {
+  async execute({ name, description, sku, price, categoryId, unitId, quantity }: IRequest) {
     const repo = AppDataSource.getRepository(Product);
     const categoryRepo = AppDataSource.getRepository(ProductCategory);
     const unitRepo = AppDataSource.getRepository(ProductUnit);
@@ -32,6 +33,7 @@ export class CreateProductService {
       name,
       description,
       sku,
+      price,
       category_id: category.id,
       unit_id: unit.id,
       min_quantity: quantity,

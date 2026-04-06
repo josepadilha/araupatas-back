@@ -40,6 +40,7 @@ export class ListProductService {
         name: product.name,
         description: product.description,
         sku: product.sku,
+        price: product.price ? Number(product.price) : null,
         min_quantity: product.min_quantity,
         category: product.category?.name,
         categoryId: product.category?.id,
