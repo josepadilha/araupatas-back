@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:/Users/josef/Documents/projetos/Portfólios/araupatas-back/src\" -name \"*.js\" -delete)"
+    ]
+  }
+}
