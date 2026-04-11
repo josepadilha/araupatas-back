@@ -3,7 +3,7 @@ import { CreateStockMovementsService } from "../../services/stock-movements/crea
 
 export class CreateStockMovementsController {
     async handle(req: Request, res: Response) {
-        const { locationId, productId, type, quantity } = req.body;
+        const { locationId, productId, type, quantity, observation } = req.body;
 
         try {
 
@@ -12,7 +12,7 @@ export class CreateStockMovementsController {
             const userId = req.user.id
 
             const newStock = await service.execute({
-                productId, locationId, type, userId, quantity
+                productId, locationId, type, userId, quantity, observation
             });
 
             return res.status(201).json(newStock);

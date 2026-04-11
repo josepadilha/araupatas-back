@@ -35,6 +35,9 @@ export class StockMovement {
   @Column()
   type!: string
 
+  @Column({ nullable: true, type: 'text' })
+  observation!: string | null;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 }

@@ -26,7 +26,7 @@ export class GetStockMovementsService {
 		    quantity: m.quantity,
 		    type: m.type,
 		    date: m.createdAt,
-        observation: ''
+        observation: m.observation ?? ''
       }))
   }
 }

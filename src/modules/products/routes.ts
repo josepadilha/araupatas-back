@@ -13,6 +13,7 @@ import { ListProductSelectController } from "./controllers/products/listProducts
 import { EditProductsController } from "./controllers/products/editProducts.controller";
 import { DeleteProductsController } from "./controllers/products/deleteProducts.controller";
 import { ListProductsController } from "./controllers/products/listProductsSelect.controller";
+import { UpdateProductPriceController } from "./controllers/products/updateProductPrice.controller";
 
 const routes = Router();
 
@@ -89,6 +90,12 @@ routes.put(
 );
 
 routes.get('/select', new ListProductSelectController().handle);
+
+routes.patch(
+  "/:id/price",
+  ensureAuthenticated,
+  new UpdateProductPriceController().handle
+);
 
 
 export { routes as productsRoutes };

@@ -7,10 +7,11 @@ interface IUnitRequest {
   locationId: string;
   type: string;
   userId: string;
-  quantity: number
+  quantity: number;
+  observation?: string;
 }
 export class CreateStockMovementsService {
-  async execute({ productId, locationId, type, userId, quantity }: IUnitRequest) {
+  async execute({ productId, locationId, type, userId, quantity, observation }: IUnitRequest) {
     
     return await AppDataSource.transaction(async (manager) => {
 
@@ -22,7 +23,14 @@ export class CreateStockMovementsService {
       });
 
       if (!stock) {
-        throw new Error("Produto não cadastrado nesse estoque.");
+        if (type === "OUT") {
+          throw new Error("Produto não cadastrado nesse estoque.");
+        }
+        stock = await stockRepo.create({
+          location_id: locationId,
+          product_id: productId,
+          quantity: 0
+        });
       }
 
       if (type === "IN") {
@@ -38,16 +46,13 @@ export class CreateStockMovementsService {
 
       await stockRepo.save(stock);
 
-      console.log('NOW Date():', new Date());
-      console.log('NOW ISO:', new Date().toISOString());
-      console.log('NOW locale:', new Date().toLocaleString('pt-BR'));
-
       const movement = movementRepo.create({
         type,
         created_by: userId,
         location_id: locationId,
         product_id: productId,
         quantity,
+        observation: observation || null,
       });
 
       await movementRepo.save(movement);
