@@ -33,6 +33,7 @@ export class GetStockByProductIdService {
       unit: stock.product.unit?.name ?? '',
       currentQuantity: stock.quantity,
       warehouseId: stock.location_id,
+      is_controlled: stock.product.is_controlled,
     };
   }
 }

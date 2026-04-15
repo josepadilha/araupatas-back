@@ -36,6 +36,9 @@ export class Product {
   @Column("int")
   min_quantity!: number;
 
+  @Column({ type: 'boolean', default: false })
+  is_controlled!: boolean;
+
   @DeleteDateColumn()
   deletedAt!: Date;
 

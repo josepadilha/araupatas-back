@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDa
 import { Product } from "../../products/entities/Product";
 import { StockLocation } from "./StockLocation";
 import { User } from "../../users/entities/User";
+import { ControlledBatch } from "./ControlledBatch";
 
 @Entity("stock_movements")
 export class StockMovement {
@@ -37,6 +38,19 @@ export class StockMovement {
 
   @Column({ nullable: true, type: 'text' })
   observation!: string | null;
+
+  @Column({ nullable: true })
+  batch_id?: string | null;
+
+  @ManyToOne(() => ControlledBatch, { nullable: true })
+  @JoinColumn({ name: "batch_id" })
+  batch?: ControlledBatch | null;
+
+  @Column({ nullable: true, type: 'text' })
+  patient_name?: string | null;
+
+  @Column({ nullable: true, type: 'text' })
+  responsible_name?: string | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;

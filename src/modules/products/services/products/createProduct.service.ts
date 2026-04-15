@@ -10,11 +10,12 @@ interface IRequest {
   price?: number;
   categoryId: string;
   unitId: string;
-  quantity: number
+  quantity: number;
+  is_controlled?: boolean;
 }
 
 export class CreateProductService {
-  async execute({ name, description, sku, price, categoryId, unitId, quantity }: IRequest) {
+  async execute({ name, description, sku, price, categoryId, unitId, quantity, is_controlled }: IRequest) {
     const repo = AppDataSource.getRepository(Product);
     const categoryRepo = AppDataSource.getRepository(ProductCategory);
     const unitRepo = AppDataSource.getRepository(ProductUnit);
@@ -37,6 +38,7 @@ export class CreateProductService {
       category_id: category.id,
       unit_id: unit.id,
       min_quantity: quantity,
+      is_controlled: is_controlled ?? false,
     });
 
     await repo.save(product);

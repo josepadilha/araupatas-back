@@ -11,7 +11,8 @@ export class CreateProductsController {
         price,
         categoryId,
         unitId,
-        quantity
+        quantity,
+        is_controlled
       } = req.body;
 
       const service = new CreateProductService();
@@ -23,7 +24,8 @@ export class CreateProductsController {
         price,
         categoryId,
         unitId,
-        quantity
+        quantity,
+        is_controlled
       });
 
       return res.status(201).json(product);

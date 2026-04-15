@@ -30,7 +30,7 @@ export class CreateInitialStockMovementsService {
         quantity
       })
 
-      stockRepo.save(newStock)
+      await stockRepo.save(newStock)
 
       const movement = movementRepo.create({
         type: 'IN',

@@ -12,10 +12,11 @@ interface IRequest {
   sku: string;
   price?: number;
   quantity: number;
+  is_controlled?: boolean;
 }
 
 export class EditProductService {
-  async execute({ id, name, description, category_id, unit_id, sku, price, quantity }: IRequest) {
+  async execute({ id, name, description, category_id, unit_id, sku, price, quantity, is_controlled }: IRequest) {
     const repo = AppDataSource.getRepository(Product);
     const categoryRepo = AppDataSource.getRepository(ProductCategory);
     const unitRepo = AppDataSource.getRepository(ProductUnit);
@@ -45,6 +46,7 @@ export class EditProductService {
     product.min_quantity = quantity ? quantity : product.min_quantity;
     product.category_id = category_id ? category_id : product.category_id;
     product.unit_id = unit_id ? unit_id : product.unit_id;
+    if (is_controlled !== undefined) product.is_controlled = is_controlled;
 
     await repo.update(id, product);
 
