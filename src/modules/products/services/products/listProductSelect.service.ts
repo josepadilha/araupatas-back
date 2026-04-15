@@ -11,6 +11,8 @@ export class ListProductSelectService {
       .select([
         'product.id',
         'product.name',
+        'product.sku',
+        'product.is_controlled',
         'category.name',
         'unit.name',
       ])
@@ -28,8 +30,10 @@ export class ListProductSelectService {
     return products.map(p => ({
       id: p.id,
       name: p.name,
+      sku: p.sku,
       category: p.category?.name,
       unit: p.unit?.name,
+      is_controlled: p.is_controlled,
     }));
   }
 }

@@ -3,7 +3,6 @@ import { ListControlledBatchesService } from "../../services/controlled-batches/
 
 export class ListControlledBatchesController {
   async handle(req: Request, res: Response) {
-    console.log('chamando rota')
     try {
       const { locationId } = req.params;
       const { productId } = req.query;
