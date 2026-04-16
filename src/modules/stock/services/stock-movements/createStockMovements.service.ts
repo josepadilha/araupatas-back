@@ -24,33 +24,24 @@ export class CreateStockMovementsService {
         throw new Error("Produto controlado não pode ter movimentação normal. Use o fluxo de controlados.");
       }
 
-      let stock = await stockRepo.findOne({
-        where: { product_id: productId, location_id: locationId }
-      });
-
-      if (!stock) {
-        if (type === "OUT") {
-          throw new Error("Produto não cadastrado nesse estoque.");
-        }
-        stock = await stockRepo.create({
-          location_id: locationId,
-          product_id: productId,
-          quantity: 0
-        });
-      }
-
       if (type === "IN") {
-        stock.quantity += quantity;
+        await manager.query(`
+          INSERT INTO stock (product_id, location_id, quantity)
+          VALUES ($1, $2, $3)
+          ON CONFLICT (product_id, location_id)
+          DO UPDATE SET quantity = stock.quantity + EXCLUDED.quantity, "updatedAt" = NOW()
+        `, [productId, locationId, quantity]);
       }
 
       if (type === "OUT") {
-        if (stock.quantity < quantity) {
-          throw new Error("Estoque insuficiente");
-        }
+        const stock = await stockRepo.findOne({
+          where: { product_id: productId, location_id: locationId }
+        });
+        if (!stock) throw new Error("Produto não cadastrado nesse estoque.");
+        if (stock.quantity < quantity) throw new Error("Estoque insuficiente");
         stock.quantity -= quantity;
+        await stockRepo.save(stock);
       }
-
-      await stockRepo.save(stock);
 
       const movement = movementRepo.create({
         type,

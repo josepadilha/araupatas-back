@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, DeleteDateColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, DeleteDateColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Unique } from "typeorm";
 import { Product } from "../../products/entities/Product";
 
 @Entity("stock")
+@Unique(['product_id', 'location_id'])
 export class Stock {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
