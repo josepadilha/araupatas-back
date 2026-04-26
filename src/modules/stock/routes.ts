@@ -13,6 +13,7 @@ import { CreateControlledBatchController } from "./controllers/controlled-batche
 import { AddControlledOutMovementController } from "./controllers/controlled-batches/addControlledOutMovement.controller";
 import { ListControlledBatchesController } from "./controllers/controlled-batches/listControlledBatches.controller";
 import { GetControlledReportController } from "./controllers/controlled-batches/getControlledReport.controller";
+import { ImportNfeController } from "./controllers/stock-movements/importNfe.controller";
 
 const routes = Router();
 
@@ -45,6 +46,12 @@ routes.get(
   "/controlled-batches/:locationId",
   ensureAuthenticated,
   new ListControlledBatchesController().handle
+);
+
+routes.post(
+  "/stock-movements/import-nfe",
+  ensureAuthenticated,
+  new ImportNfeController().handle
 );
 
 routes.post(
