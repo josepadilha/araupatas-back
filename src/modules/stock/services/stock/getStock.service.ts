@@ -7,6 +7,8 @@ interface GetStockParams {
   page?: number;
   limit?: number;
   search?: string;
+  onlyControlled?: boolean;
+  onlyReplenishment?: boolean;
 }
 
 export class GetStockService {
@@ -15,6 +17,8 @@ export class GetStockService {
     page = 1,
     limit = 10,
     search = '',
+    onlyControlled = false,
+    onlyReplenishment = false,
   }: GetStockParams) {
 
     const qb = AppDataSource
@@ -66,6 +70,8 @@ export class GetStockService {
         OR LOWER(category.name) LIKE :search
       `, { search: `%${search.toLowerCase()}%` });
     }
+    if (onlyControlled) qb.andWhere('product.is_controlled = true');
+    if (onlyReplenishment) qb.andWhere('stock.quantity < product.min_quantity');
 
     const countQb = AppDataSource
       .getRepository(Stock)
@@ -80,6 +86,8 @@ export class GetStockService {
         OR LOWER(category.name) LIKE :search
       `, { search: `%${search.toLowerCase()}%` });
     }
+    if (onlyControlled) countQb.andWhere('product.is_controlled = true');
+    if (onlyReplenishment) countQb.andWhere('stock.quantity < product.min_quantity');
 
     const total = await countQb.getCount();
 

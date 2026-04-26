@@ -14,9 +14,11 @@ export class ListStockController {
       const page = Number(req.query.page || 1);
       const limit = Number(req.query.limit || 10);
       const search = String(req.query.search || '');
+      const onlyControlled = req.query.onlyControlled === 'true';
+      const onlyReplenishment = req.query.onlyReplenishment === 'true';
 
       const service = new GetStockService();
-      const product = await service.execute({ locationId, page, limit, search });
+      const product = await service.execute({ locationId, page, limit, search, onlyControlled, onlyReplenishment });
 
       return res.status(200).json(product);
 
